@@ -525,7 +525,7 @@ ${parseExtras(gltf.parser.json.asset && gltf.parser.json.asset.extras)}*/`
           )
         }
 
-useGLTF.preload(${urlTokenForImport})`
+${options.preload ? `useGLTF.preload(${urlTokenForImport})` : ''}`
 
   if (!options.console) console.log(header)
   const output = header + '\n' + result

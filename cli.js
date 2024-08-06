@@ -30,6 +30,7 @@ const cli = meow(
     --instance, -i      Instance re-occuring geometry
     --instanceall, -I   Instance every geometry (for cheaper re-use)
     --exportdefault, -E Use default export
+    --preload           Whether to preload the model, defaults to true
     --transform, -T     Transform the asset for the web (draco, prune, resize)
       --resolution, -R  Resolution for texture resizing (default: 1024)
       --keepmeshes, -j  Do not join compatible meshes      
@@ -68,6 +69,7 @@ const cli = meow(
       keepmaterials: { type: 'boolean', shortFlag: 'M', default: false },
       format: { type: 'string', shortFlag: 'f', default: 'webp' },
       exportdefault: { type: 'boolean', shortFlag: 'E' },
+      preload: { type: 'boolean', default: true },
       weld: { type: 'number', default: 0.0001 },
       ratio: { type: 'number', default: 0.75 },
       error: { type: 'number', default: 0.001 },

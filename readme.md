@@ -44,6 +44,7 @@ Options
   --instance, -i      Instance re-occuring geometry
   --instanceall, -I   Instance every geometry (for cheaper re-use)
   --exportdefault, -E Use default export
+  --preload           Whether to preload the model, defaults to true
   --transform, -T     Transform the asset for the web (draco, prune, resize)
     --resolution, -R  Resolution for texture resizing (default: 1024)
     --keepmeshes, -j  Do not join compatible meshes      
@@ -155,7 +156,7 @@ You don't need to do anything if your models are draco compressed, since `useGLT
 
 #### ⚡️ Preload your assets for faster response
 
-The asset will be preloaded by default, this makes it quicker to load and reduces time-to-paint. Remove the preloader if you don't need it.
+The asset will be preloaded by default, this makes it quicker to load and reduces time-to-paint. Remove the preloader or pass `--preload false` if you don't need it.
 
 ```jsx
 useGLTF.preload('/model.gltf')
