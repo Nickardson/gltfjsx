@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import * as prettier from 'prettier'
 import babelParser from 'prettier/parser-babel.js'
 import isVarName from './isVarName.js'
+import distinctBy from './distinctBy.js'
 
 function parse(gltf, { fileName = 'model', ...options } = {}) {
   if (gltf.isObject3D) {
@@ -95,7 +96,7 @@ function parse(gltf, { fileName = 'model', ...options } = {}) {
   function printTypes(objects, animations) {
     let meshes = objects.filter((o) => o.isMesh && o.__removed === undefined)
     let bones = objects.filter((o) => o.isBone && !(o.parent && o.parent.isBone) && o.__removed === undefined)
-    let materials = [...new Set(objects.filter((o) => o.material && o.material.name).map((o) => o.material))]
+    let materials = distinctBy([...new Set(objects.filter((o) => o.material && o.material.name).map((o) => o.material))], (a, b) => a.name === b.name && a.type === b.type);
 
     let animationTypes = ''
     if (animations.length) {
