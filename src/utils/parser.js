@@ -103,6 +103,9 @@ function parse(gltf, { fileName = 'model', ...options } = {}) {
   type ActionName = ${animations.map((clip, i) => `"${clip.name}"`).join(' | ')};
 
   interface GLTFAction extends THREE.AnimationClip { name: ActionName }\n`
+    } else {
+      animationTypes = `\n
+  type GLTFAction = never`
     }
 
     const types = [...new Set([...meshes, ...bones].map((o) => getType(o)))]
