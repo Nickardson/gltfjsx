@@ -40,6 +40,7 @@ Options
   --precision, -p     Number of fractional digits (default: 3)
   --draco, -d         Draco binary path
   --root, -r          Sets directory from which .gltf file is served
+  --viteimport        Use a Vite-like ?url import from the given folder
   --instance, -i      Instance re-occuring geometry
   --instanceall, -I   Instance every geometry (for cheaper re-use)
   --exportdefault, -E Use default export

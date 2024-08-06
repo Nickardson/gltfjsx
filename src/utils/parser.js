@@ -11,6 +11,7 @@ function parse(gltf, { fileName = 'model', ...options } = {}) {
   }
 
   const url = (fileName.toLowerCase().startsWith('http') ? '' : '/') + fileName
+  const urlTokenForImport = options.viteimport ? `model` : `'${url}'`
   const animations = gltf.animations
   const hasAnimations = animations.length > 0
 
@@ -471,6 +472,7 @@ ${parseExtras(gltf.parser.json.asset && gltf.parser.json.asset.extras)}*/`
             ? `import { ${options.types ? 'GLTF,' : ''} ${hasPrimitives ? 'SkeletonUtils' : ''} } from "three-stdlib"`
             : ''
         }
+        ${!!options.viteimport ? `import model from '${options.viteimport}${url}?url'` : ''}
         ${options.types ? printTypes(objects, animations) : ''}
 
         ${
@@ -479,7 +481,7 @@ ${parseExtras(gltf.parser.json.asset && gltf.parser.json.asset.extras)}*/`
         const context = React.createContext(${options.types ? '{} as ContextType' : ''})
 
         export function Instances({ children, ...props }${options.types ? ': JSX.IntrinsicElements["group"]' : ''}) {
-          const { nodes } = useGLTF('${url}'${options.draco ? `, ${JSON.stringify(options.draco)}` : ''})${
+          const { nodes } = useGLTF(${urlTokenForImport}${options.draco ? `, ${JSON.stringify(options.draco)}` : ''})${
             options.types ? ' as GLTFResult' : ''
           }
           const instances = React.useMemo(() => ({
@@ -506,7 +508,7 @@ ${parseExtras(gltf.parser.json.asset && gltf.parser.json.asset.extras)}*/`
             hasAnimations ? `const group = ${options.types ? 'React.useRef<THREE.Group>()' : 'React.useRef()'};` : ''
           } ${
             !options.instanceall
-              ? `const { ${!hasPrimitives ? `nodes, materials` : 'scene'} ${hasAnimations ? ', animations' : ''}} = useGLTF('${url}'${
+              ? `const { ${!hasPrimitives ? `nodes, materials` : 'scene'} ${hasAnimations ? ', animations' : ''}} = useGLTF(${urlTokenForImport}${
                   options.draco ? `, ${JSON.stringify(options.draco)}` : ''
                 })${!hasPrimitives && options.types ? ' as GLTFResult' : ''}${
                   hasPrimitives
@@ -523,7 +525,7 @@ ${parseExtras(gltf.parser.json.asset && gltf.parser.json.asset.extras)}*/`
           )
         }
 
-useGLTF.preload('${url}')`
+useGLTF.preload(${urlTokenForImport})`
 
   if (!options.console) console.log(header)
   const output = header + '\n' + result
